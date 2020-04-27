@@ -101,9 +101,9 @@ router.post('/signin', function(req, res) {
 //Module Routes
 router.route('/devices')
     .get(function(req, res) {
-        Device.find(function(err, modules) {
+        Device.find(function(err, devices) {
             if (err) res.send(err);
-            res.json(modules);
+            res.json({success: true, devices: devices});
         })
     })
     .post(function(req, res) {
