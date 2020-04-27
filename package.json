@@ -1,12 +1,12 @@
 {
-  "name": "week7a",
+  "name": "HAP_backend",
   "version": "1.0.0",
-  "description": "week7a",
+  "description": "HAP_backend",
   "main": "server.js",
   "scripts": {
     "test": "mocha --timeout 10000 --exit"
   },
-  "author": "Shawn McCarthy",
+  "author": "Scott Clay",
   "license": "ISC",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
