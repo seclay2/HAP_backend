@@ -3,12 +3,13 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 var authJwtController = require('./auth_jwt');
 var User = require('./Users');
+var Device = require('./Devices');
 var jwt = require('jsonwebtoken');
 var cors = require('cors');
 
 var app = express();
 module.exports = app; // for testing
-app.use(cors())
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -96,6 +97,35 @@ router.post('/signin', function(req, res) {
 
     });
 });
+
+//Module Routes
+router.route('/devices')
+    .get(function(req, res) {
+        Device.find(function(err, modules) {
+            if (err) res.send(err);
+            res.json(modules);
+        })
+    })
+    .post(function(req, res) {
+        var device = new Device;
+        device.initialCall = req.body.initialCall;
+        device.header = req.body.header;
+        device.monitors = req.body.monitors;
+        device.actions = req.body.actions;
+
+        device.save(function(err) {
+            if (err) {
+                return res.json({success: false, message: err.message});
+            }
+            res.json({success: true, message: 'Device saved.'});
+        })
+    })
+    .put(function(req, res) {
+
+    })
+    .delete(function(req, res) {
+
+    });
 
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
