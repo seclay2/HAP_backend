@@ -121,10 +121,31 @@ router.route('/devices')
         })
     })
     .put(function(req, res) {
+        let updates = req.body;
+        Device.findOneAndUpdate({_id: req.query.id}, updates, function(err, device) {
+           if (err) {
+               res.json({success: false, message: err.message});
+           }
+           else if (device == null) {
+               res.json({success: false, message: "Device not found"});
+           }
+           else
+               res.json({success: true, message: "Device successfully update."})
 
+        });
     })
     .delete(function(req, res) {
+        Device.findOneAndDelete({_id: req.query.id}, function(err, device) {
+            if (err) {
+                res.json({success: false, message: err.message});
+            }
+            else if (device == null) {
+                res.json({success: false, message: "Device not found"});
+            }
+            else
+                res.json({success: true, message: "Device successfully removed."})
 
+        });
     });
 
 app.use('/', router);
