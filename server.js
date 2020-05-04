@@ -103,7 +103,7 @@ router.route('/devices')
     .get(function(req, res) {
         Device.find(function(err, devices) {
             if (err) res.send(err);
-            res.json({success: true, devices: devices});
+            res.json({success: true, size: devices.length, devices: devices});
         })
     })
     .post(function(req, res) {

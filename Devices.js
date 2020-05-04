@@ -8,6 +8,8 @@ mongoose.Promise = global.Promise;
 mongoose.connect(process.env.DB, { useNewUrlParser: true } );
 mongoose.set('useCreateIndex', true);
 
+const actions = ["button", "input", "toggle"];
+
 var HighLevelSchema = new Schema({
     type: String,
     options: {
@@ -18,28 +20,34 @@ var HighLevelSchema = new Schema({
     },
 });
 
+var HeaderSchema = new Schema({
+    name: { type: String, required: true },
+    color: String,
+    displayHighLevel: { type: Boolean, required: true },
+    highlevel: { type: HighLevelSchema, required: displayHighLevel }
+});
+
+function displayHighLevel() {
+    return this.displayHighLevel;
+}
+
 var MonitorSchema = new Schema({
     label: String,
     call: String,
 });
 
 var ActionSchema = new Schema({
-    type: String,
-    call: String,
+    type: { type: String, enum: actions, required: true },
+    call: { type: String, required: true },
     value: String,
-    label: String,
+    label: { type: String, required: true },
     pattern: String,
 });
 
 // Device schema
 var DeviceSchema = new Schema({
     initialCall: String,
-    header: {
-        name: String,
-        color: String,
-        displayHighLevel: Boolean,
-        highlevel: HighLevelSchema,
-    },
+    header: { type: HeaderSchema, required: true },
     monitors: [MonitorSchema],
     actions: [ActionSchema],
 });
